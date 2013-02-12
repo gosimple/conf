@@ -8,16 +8,16 @@ import (
 	"strings"
 )
 
-// ReadConfigFile reads a file and returns a new configuration representation.
-// This representation can be queried with GetString, etc.
-func ReadConfigFile(fname string) (c *ConfigFile, err error) {
+// ReadFile reads a file and returns a new configuration representation.
+// This representation can be queried with String, etc.
+func ReadFile(fname string) (c *Config, err error) {
 	var file *os.File
 
 	if file, err = os.Open(fname); err != nil {
 		return nil, err
 	}
 
-	c = NewConfigFile()
+	c = New()
 	if err = c.Read(file); err != nil {
 		return nil, err
 	}
@@ -29,10 +29,10 @@ func ReadConfigFile(fname string) (c *ConfigFile, err error) {
 	return c, nil
 }
 
-func ReadConfigBytes(conf []byte) (c *ConfigFile, err error) {
+func ReadBytes(conf []byte) (c *Config, err error) {
 	buf := bytes.NewBuffer(conf)
 
-	c = NewConfigFile()
+	c = New()
 	if err = c.Read(buf); err != nil {
 		return nil, err
 	}
@@ -41,8 +41,8 @@ func ReadConfigBytes(conf []byte) (c *ConfigFile, err error) {
 }
 
 // Read reads an io.Reader and returns a configuration representation. This
-// representation can be queried with GetString, etc.
-func (c *ConfigFile) Read(reader io.Reader) (err error) {
+// representation can be queried with String, etc.
+func (c *Config) Read(reader io.Reader) (err error) {
 	buf := bufio.NewReader(reader)
 
 	var section, option string
@@ -93,7 +93,7 @@ func (c *ConfigFile) Read(reader io.Reader) (err error) {
 				c.AddOption(section, option, value)
 
 			case section != "" && option != "": // continuation of multi-line value
-				prev, _ := c.GetRawString(section, option)
+				prev, _ := c.RawString(section, option)
 				value := strings.TrimSpace(stripComments(l))
 				c.AddOption(section, option, prev+"\n"+value)
 

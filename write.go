@@ -6,10 +6,10 @@ import (
 	"os"
 )
 
-// WriteConfigFile saves the configuration representation to a file.
+// WriteFile saves the configuration representation to a file.
 // The desired file permissions must be passed as in os.Open.
 // The header is a string that is saved as a comment in the first line of the file.
-func (c *ConfigFile) WriteConfigFile(fname string, perm uint32, header string) (err error) {
+func (c *Config) WriteFile(fname string, perm uint32, header string) (err error) {
 	var file *os.File
 
 	if file, err = os.Create(fname); err != nil {
@@ -22,8 +22,8 @@ func (c *ConfigFile) WriteConfigFile(fname string, perm uint32, header string) (
 	return file.Close()
 }
 
-// WriteConfigBytes returns the configuration file.
-func (c *ConfigFile) WriteConfigBytes(header string) (config []byte) {
+// WriteBytes returns the configuration file.
+func (c *Config) WriteBytes(header string) (config []byte) {
 	buf := bytes.NewBuffer(nil)
 
 	c.Write(buf, header)
@@ -32,7 +32,7 @@ func (c *ConfigFile) WriteConfigBytes(header string) (config []byte) {
 }
 
 // Writes the configuration file to the io.Writer.
-func (c *ConfigFile) Write(writer io.Writer, header string) (err error) {
+func (c *Config) Write(writer io.Writer, header string) (err error) {
 	buf := bytes.NewBuffer(nil)
 
 	if header != "" {

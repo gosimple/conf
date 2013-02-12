@@ -14,13 +14,13 @@
 //
 // To read this configuration file, do:
 //
-//	c, err := conf.ReadConfigFile("server.conf")
-//	c.GetString("default", "host")               // returns example.com
-//	c.GetInt("", "port")                         // returns 443 (assumes "default")
-//	c.GetBool("", "php")                         // returns true
-//	c.GetString("service-1", "host")             // returns s1.example.com
-//	c.GetBool("service-1","allow-writing")       // returns false
-//	c.GetInt("service-1", "port")                // returns 0 and a GetError
+//	c, err := conf.ReadFile("server.conf")
+//	c.String("default", "host")               // returns example.com
+//	c.Int("", "port")                         // returns 443 (assumes "default")
+//	c.Bool("", "php")                         // returns true
+//	c.String("service-1", "host")             // returns s1.example.com
+//	c.Bool("service-1","allow-writing")       // returns false
+//	c.Int("service-1", "port")                // returns 0 and a GetError
 //
 // Note that all section and option names are case insensitive. All values are case
 // sensitive.
@@ -35,9 +35,9 @@ import (
 	"strings"
 )
 
-// ConfigFile is the representation of configuration settings.
+// Config is the representation of configuration settings.
 // The public interface is entirely through methods.
-type ConfigFile struct {
+type Config struct {
 	data map[string]map[string]string // Maps sections to options to values.
 }
 
@@ -79,7 +79,7 @@ var (
 
 // AddSection adds a new section to the configuration.
 // It returns true if the new section was inserted, and false if the section already existed.
-func (c *ConfigFile) AddSection(section string) bool {
+func (c *Config) AddSection(section string) bool {
 	section = strings.ToLower(section)
 
 	if _, ok := c.data[section]; ok {
@@ -92,7 +92,7 @@ func (c *ConfigFile) AddSection(section string) bool {
 
 // RemoveSection removes a section from the configuration.
 // It returns true if the section was removed, and false if section did not exist.
-func (c *ConfigFile) RemoveSection(section string) bool {
+func (c *Config) RemoveSection(section string) bool {
 	section = strings.ToLower(section)
 
 	switch _, ok := c.data[section]; {
@@ -113,7 +113,7 @@ func (c *ConfigFile) RemoveSection(section string) bool {
 // AddOption adds a new option and value to the configuration.
 // It returns true if the option and value were inserted, and false if the value was overwritten.
 // If the section does not exist in advance, it is created.
-func (c *ConfigFile) AddOption(section string, option string, value string) bool {
+func (c *Config) AddOption(section string, option string, value string) bool {
 	c.AddSection(section) // make sure section exists
 
 	section = strings.ToLower(section)
@@ -128,7 +128,7 @@ func (c *ConfigFile) AddOption(section string, option string, value string) bool
 // RemoveOption removes a option and value from the configuration.
 // It returns true if the option and value were removed, and false otherwise,
 // including if the section did not exist.
-func (c *ConfigFile) RemoveOption(section string, option string) bool {
+func (c *Config) RemoveOption(section string, option string) bool {
 	section = strings.ToLower(section)
 	option = strings.ToLower(option)
 
@@ -142,11 +142,11 @@ func (c *ConfigFile) RemoveOption(section string, option string) bool {
 	return ok
 }
 
-// NewConfigFile creates an empty configuration representation.
+// New creates an empty configuration representation.
 // This representation can be filled with AddSection and AddOption and then
-// saved to a file using WriteConfigFile.
-func NewConfigFile() *ConfigFile {
-	c := new(ConfigFile)
+// saved to a file using WriteFile.
+func New() *Config {
+	c := new(Config)
 	c.data = make(map[string]map[string]string)
 
 	c.AddSection(DefaultSection) // default section always exists

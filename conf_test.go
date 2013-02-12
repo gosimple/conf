@@ -54,7 +54,7 @@ var testSet = []interface{}{
 }
 
 func TestBuild(t *testing.T) {
-	c, err := ReadConfigBytes([]byte(confFile))
+	c, err := ReadBytes([]byte(confFile))
 	if err != nil {
 		t.Error(err)
 	}
@@ -63,36 +63,36 @@ func TestBuild(t *testing.T) {
 		switch element.(type) {
 		case stringtest:
 			e := element.(stringtest)
-			ans, err := c.GetString(e.section, e.option)
+			ans, err := c.String(e.section, e.option)
 			if err != nil {
-				t.Error("c.GetString(\"" + e.section + "\",\"" + e.option + "\") returned error: " + err.Error())
+				t.Error("c.String(\"" + e.section + "\",\"" + e.option + "\") returned error: " + err.Error())
 			} else if ans != e.answer {
-				t.Error("c.GetString(\"" + e.section + "\",\"" + e.option + "\") returned incorrect answer: " + ans)
+				t.Error("c.String(\"" + e.section + "\",\"" + e.option + "\") returned incorrect answer: " + ans)
 			}
 		case inttest:
 			e := element.(inttest)
-			ans, err := c.GetInt(e.section, e.option)
+			ans, err := c.Int(e.section, e.option)
 			if err != nil {
-				t.Error("c.GetInt(\"" + e.section + "\",\"" + e.option + "\") returned error: " + err.Error())
+				t.Error("c.Int(\"" + e.section + "\",\"" + e.option + "\") returned error: " + err.Error())
 			} else if ans != e.answer {
-				t.Error("c.GetInt(\"" + e.section + "\",\"" + e.option + "\") returned incorrect answer: " + strconv.Itoa(ans))
+				t.Error("c.Int(\"" + e.section + "\",\"" + e.option + "\") returned incorrect answer: " + strconv.Itoa(ans))
 			}
 		case int64test:
 			e := element.(int64test)
-			ans, err := c.GetInt64(e.section, e.option)
+			ans, err := c.Int64(e.section, e.option)
 			if err != nil {
-				t.Error("c.GetInt64(\"" + e.section + "\",\"" + e.option + "\") returned error: " + err.Error())
+				t.Error("c.Int64(\"" + e.section + "\",\"" + e.option + "\") returned error: " + err.Error())
 			} else if ans != e.answer {
 				ans64 := fmt.Sprintf("%v", ans)
-				t.Error("c.GetInt64(\"" + e.section + "\",\"" + e.option + "\") returned incorrect answer: " + ans64)
+				t.Error("c.Int64(\"" + e.section + "\",\"" + e.option + "\") returned incorrect answer: " + ans64)
 			}
 		case booltest:
 			e := element.(booltest)
-			ans, err := c.GetBool(e.section, e.option)
+			ans, err := c.Bool(e.section, e.option)
 			if err != nil {
-				t.Error("c.GetBool(\"" + e.section + "\",\"" + e.option + "\") returned error: " + err.Error())
+				t.Error("c.Bool(\"" + e.section + "\",\"" + e.option + "\") returned error: " + err.Error())
 			} else if ans != e.answer {
-				t.Error("c.GetBool(\"" + e.section + "\",\"" + e.option + "\") returned incorrect answer")
+				t.Error("c.Bool(\"" + e.section + "\",\"" + e.option + "\") returned incorrect answer")
 			}
 		}
 	}

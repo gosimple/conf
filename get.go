@@ -5,9 +5,9 @@ import (
 	"strings"
 )
 
-// GetSections returns the list of sections in the configuration.
+// Sections returns the list of sections in the configuration.
 // (The default section always exists.)
-func (c *ConfigFile) GetSections() (sections []string) {
+func (c *Config) Sections() (sections []string) {
 	sections = make([]string, len(c.data))
 
 	i := 0
@@ -21,7 +21,7 @@ func (c *ConfigFile) GetSections() (sections []string) {
 
 // HasSection checks if the configuration has the given section.
 // (The default section always exists.)
-func (c *ConfigFile) HasSection(section string) bool {
+func (c *Config) HasSection(section string) bool {
 	if section == "" {
 		section = "default"
 	}
@@ -30,10 +30,10 @@ func (c *ConfigFile) HasSection(section string) bool {
 	return ok
 }
 
-// GetOptions returns the list of options available in the given section.
+// Options returns the list of options available in the given section.
 // It returns an error if the section does not exist and an empty list if the section is empty.
 // Options within the default section are also included.
-func (c *ConfigFile) GetOptions(section string) (options []string, err error) {
+func (c *Config) Options(section string) (options []string, err error) {
 	if section == "" {
 		section = "default"
 	}
@@ -59,7 +59,7 @@ func (c *ConfigFile) GetOptions(section string) (options []string, err error) {
 
 // HasOption checks if the configuration has the given option in the section.
 // It returns false if either the option or section do not exist.
-func (c *ConfigFile) HasOption(section string, option string) bool {
+func (c *Config) HasOption(section string, option string) bool {
 	if section == "" {
 		section = "default"
 	}
@@ -76,10 +76,10 @@ func (c *ConfigFile) HasOption(section string, option string) bool {
 	return okd || oknd
 }
 
-// GetRawString gets the (raw) string value for the given option in the section.
+// RawString gets the (raw) string value for the given option in the section.
 // The raw string value is not subjected to unfolding, which was illustrated in the beginning of this documentation.
 // It returns an error if either the section or the option do not exist.
-func (c *ConfigFile) GetRawString(section string, option string) (value string, err error) {
+func (c *Config) RawString(section string, option string) (value string, err error) {
 	if section == "" {
 		section = "default"
 	}
@@ -96,12 +96,12 @@ func (c *ConfigFile) GetRawString(section string, option string) (value string, 
 	return "", GetError{SectionNotFound, "", "", section, option}
 }
 
-// GetString gets the string value for the given option in the section.
+// String gets the string value for the given option in the section.
 // If the value needs to be unfolded (see e.g. %(host)s example in the beginning of this documentation),
-// then GetString does this unfolding automatically, up to DepthValues number of iterations.
+// then String does this unfolding automatically, up to DepthValues number of iterations.
 // It returns an error if either the section or the option do not exist, or the unfolding cycled.
-func (c *ConfigFile) GetString(section string, option string) (value string, err error) {
-	value, err = c.GetRawString(section, option)
+func (c *Config) String(section string, option string) (value string, err error) {
+	value, err = c.RawString(section, option)
 	if err != nil {
 		return "", err
 	}
@@ -109,9 +109,9 @@ func (c *ConfigFile) GetString(section string, option string) (value string, err
 	return value, nil
 }
 
-// GetInt has the same behaviour as GetString but converts the response to int.
-func (c *ConfigFile) GetInt(section string, option string) (value int, err error) {
-	sv, err := c.GetString(section, option)
+// Int has the same behaviour as GetString but converts the response to int.
+func (c *Config) Int(section string, option string) (value int, err error) {
+	sv, err := c.String(section, option)
 	if err == nil {
 		value, err = strconv.Atoi(sv)
 		if err != nil {
@@ -122,9 +122,9 @@ func (c *ConfigFile) GetInt(section string, option string) (value int, err error
 	return value, err
 }
 
-// GetInt64 has the same behaviour as GetString but converts the response to int64.
-func (c *ConfigFile) GetInt64(section string, option string) (value int64, err error) {
-	sv, err := c.GetString(section, option)
+// Int64 has the same behaviour as GetString but converts the response to int64.
+func (c *Config) Int64(section string, option string) (value int64, err error) {
+	sv, err := c.String(section, option)
 	if err == nil {
 		value, err = strconv.ParseInt(sv, 10, 64)
 		if err != nil {
@@ -135,9 +135,9 @@ func (c *ConfigFile) GetInt64(section string, option string) (value int64, err e
 	return value, err
 }
 
-// GetFloat has the same behaviour as GetString but converts the response to float.
-func (c *ConfigFile) GetFloat64(section string, option string) (value float64, err error) {
-	sv, err := c.GetString(section, option)
+// Float has the same behaviour as GetString but converts the response to float.
+func (c *Config) Float64(section string, option string) (value float64, err error) {
+	sv, err := c.String(section, option)
 	if err == nil {
 		value, err = strconv.ParseFloat(sv, 64)
 		if err != nil {
@@ -148,10 +148,10 @@ func (c *ConfigFile) GetFloat64(section string, option string) (value float64, e
 	return value, err
 }
 
-// GetBool has the same behaviour as GetString but converts the response to bool.
+// Bool has the same behaviour as GetString but converts the response to bool.
 // See constant BoolStrings for string values converted to bool.
-func (c *ConfigFile) GetBool(section string, option string) (value bool, err error) {
-	sv, err := c.GetString(section, option)
+func (c *Config) Bool(section string, option string) (value bool, err error) {
+	sv, err := c.String(section, option)
 	if err != nil {
 		return false, err
 	}
