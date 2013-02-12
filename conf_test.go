@@ -1,9 +1,9 @@
 package conf
 
 import (
+	"fmt"
 	"strconv"
 	"testing"
-	"fmt"
 )
 
 const confFile = `
