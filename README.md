@@ -1,13 +1,13 @@
 conf
-======
+====
 
-Package conf provide support for parsing configuration files.
+Package `conf` provide support for parsing configuration files.
 
-[Documentation online](http://godoc.org/bitbucket.org/matrixik/conf)
+[Documentation online](http://godoc.org/bitbucket.org/gosimple/conf)
 
 ## Installation
 
-	go get bitbucket.org/matrixik/conf
+	go get bitbucket.org/gosimple/conf
 
 ## Example
 
@@ -56,7 +56,7 @@ sensitive.
 
 ### Requests or bugs?
 
-<https://bitbucket.org/matrixik/conf/issues>
+<https://bitbucket.org/gosimple/conf/issues>
 
 ### Info
 
