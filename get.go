@@ -122,6 +122,19 @@ func (c *ConfigFile) GetInt(section string, option string) (value int, err error
 	return value, err
 }
 
+// GetInt64 has the same behaviour as GetString but converts the response to int64.
+func (c *ConfigFile) GetInt64(section string, option string) (value int64, err error) {
+	sv, err := c.GetString(section, option)
+	if err == nil {
+		value, err = strconv.ParseInt(sv, 10, 64)
+		if err != nil {
+			err = GetError{CouldNotParse, "int64", sv, section, option}
+		}
+	}
+
+	return value, err
+}
+
 // GetFloat has the same behaviour as GetString but converts the response to float.
 func (c *ConfigFile) GetFloat64(section string, option string) (value float64, err error) {
 	sv, err := c.GetString(section, option)
