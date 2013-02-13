@@ -23,7 +23,7 @@ To read this configuration file, do:
 	c.Bool("service-1","allow-writing")     // returns false
 	c.Int("service-1", "port")              // returns 0 and a GetError
 
-Note that all section and option names are case insensitive. All values 
+Note that all section and option names are case insensitive. All values
 are case sensitive.
 
 Goconfig's string substitution syntax has not been removed. However, it may be
