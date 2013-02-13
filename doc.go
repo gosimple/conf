@@ -1,3 +1,6 @@
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 /*
 This package implements a parser for configuration files.
 This allows easy reading and writing of structured configuration files.

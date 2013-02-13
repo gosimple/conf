@@ -9,7 +9,7 @@ Package `conf` provide support for parsing configuration files.
 
 	go get bitbucket.org/gosimple/conf
 
-## Example
+## Usage
 
 Check `example` folder
 
@@ -71,3 +71,8 @@ sensitive.
 ### Info
 
 Package conf is based on [goconfig](https://code.google.com/p/goconf/) 
+
+## License
+
+The source files are distributed under the The BSD 3-Clause License.
+You can find full license text in the `LICENSE` file.
