@@ -6,7 +6,7 @@ package main
 import (
 	"fmt"
 
-	"bitbucket.org/gosimple/conf"
+	"github.com/gosimple/conf"
 )
 
 func main() {

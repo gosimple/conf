@@ -3,17 +3,17 @@ conf
 
 Package `conf` provide support for parsing configuration files.
 
-[Documentation online](http://godoc.org/bitbucket.org/gosimple/conf)
+[Documentation online](http://godoc.org/github.com/gosimple/conf)
 
 ## Installation
 
-	go get bitbucket.org/gosimple/conf
+	go get -u github.com/gosimple/conf
 
 ## Usage
 
 Check `example` folder
 
-	import "bitbucket.org/gosimple/conf"
+	import "github.com/gosimple/conf"
 
 NOTE: All section names and options are case insensitive. All values are case
 sensitive.
@@ -66,7 +66,7 @@ sensitive.
 
 ### Requests or bugs?
 
-<https://bitbucket.org/gosimple/conf/issues>
+<https://github.com/gosimple/conf/issues>
 
 ### Info
 
